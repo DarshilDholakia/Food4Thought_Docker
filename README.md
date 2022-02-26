@@ -94,7 +94,7 @@ For basic requests users do not need to be logged in e.g. GET requestlocalhost:8
 <br />
 <br />
 
-We added a security feature so that only certain people can add, delete and update entries onto our database. Click on 'Authorisation' tab in the request section, then on type please press select 'Basic Auth' from the 'Type\" dropdown.
+We added a security feature so that only certain people can add, delete and update entries in our database. Click on the  'Authorisation' tab in the request section, then select 'Basic Auth' from the 'Type' dropdown.
 
 The login details to be used are:
 <br />
