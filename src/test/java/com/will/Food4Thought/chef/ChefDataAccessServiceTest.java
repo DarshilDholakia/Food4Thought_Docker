@@ -1,5 +1,6 @@
 package com.will.Food4Thought.chef;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -10,13 +11,17 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
 class ChefDataAccessServiceTest {
 
@@ -26,7 +31,6 @@ class ChefDataAccessServiceTest {
     @Autowired
     private ChefDataAccessService underTest;
 
-
     @Test
     void canInsertChef() {
 
@@ -34,18 +38,18 @@ class ChefDataAccessServiceTest {
         underTest.insertChef(expected);
         
         Chef actual = null;
-        for (Chef selectAllChef : underTest.selectAllChefs()) {
-            if(selectAllChef.getName().equals("james"));
-            actual=selectAllChef;
+        for (Chef chef : underTest.selectAllChefs()) {
+            if(chef.getName().equals("james"));
+            actual = chef;
         }
         assertThat(expected).isEqualTo(actual);
-
     }
 
     @Test
     void canDeleteChef() {
-        List<Chef> expected=new ArrayList<>();
-        underTest.deleteChefById(1);
+        Chef sue = new Chef(1,"Sue Lopez", "suelopez@gotmail.com","Grimsby", 75.00);
+        List<Chef> expected= Arrays.asList(sue);
+        underTest.deleteChefById(2);
         List<Chef> actual=underTest.selectAllChefs();
         assertThat(actual).isEqualTo(expected);
     }
@@ -55,7 +59,6 @@ class ChefDataAccessServiceTest {
         Chef expected = new Chef(1,"Sue Lopez", "suelopez@gotmail.com","Grimsby", 75.00);
         Chef actual = underTest.selectChefById(1);
         assertThat(actual).isEqualTo(expected);
-
     }
 
     @Test
@@ -65,7 +68,6 @@ class ChefDataAccessServiceTest {
         List<Chef> expected = new ArrayList<>();
         expected.add(chef);
         assertThat(actual).isEqualTo(expected);
-
     }
 
     @Test
@@ -79,8 +81,5 @@ class ChefDataAccessServiceTest {
         List<Chef> actual= underTest.selectAllChefs();
 
         assertThat(actual).isEqualTo(expected);
-
     }
-
-
 }
