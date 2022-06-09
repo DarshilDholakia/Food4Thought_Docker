@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  app1:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: app1
+    depends_on:
+      - db1
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db1:5432/postgres
+#      - SPRING_DATASOURCE_USERNAME=
+#      - SPRING_DATASOURCE_PASSWORD=
+      - PGUSER=postgres
+    ports:
+      - "8080:8080"
+
+  db1:
+    image: 'postgres:11.5-alpine'
+    container_name: db1
+#    user: postgres
+    volumes:
+      - ./create_fill.sql:/docker-entrypoint-initdb.d/create_fill.sql
+    environment:
+      - PGDATA=/data
+    ports:
+      - "5432:5432"
